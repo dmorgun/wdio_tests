@@ -25,7 +25,10 @@ describe('My First Test', () => {
         await expect(pages.shopingCartPage.cartItems).not.toBeExisting();
     });
 
-    it.only('Perform and verify sorting on the Inventory page', async () => {
+    //TODO
+    //Break down 1 test into 4 tests not copying code
+
+    it('Perform and verify sorting on the Inventory page', async () => {
         await pages.loginPage.navigate();
         await pages.loginPage.performLogin('standard_user', 'secret_sauce');
 

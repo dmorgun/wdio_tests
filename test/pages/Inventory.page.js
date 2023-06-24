@@ -30,6 +30,10 @@ class InventoryPage extends BaseSwagLabPage {
     }
     
     //my methods below
+
+    //TODO
+    //Create 1 method for choosing sort option
+    
     async sortNameAtoZ() {
         await this.sortingDropdown.click();
         //await $('.product_sort_container').click();
