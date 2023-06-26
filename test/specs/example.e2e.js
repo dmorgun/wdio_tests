@@ -25,6 +25,7 @@ describe('My First Test', () => {
         await expect(pages.shopingCartPage.cartItems).not.toBeExisting();
     });
 
+    //Test 1
     //TODO
     //Break down 1 test into 4 tests not copying code
 
@@ -55,4 +56,20 @@ describe('My First Test', () => {
         
     });
 
+    //Test2
+    it.only('Add random products to Cart, verify they`re displayed correctly', async () => {
+        await pages.loginPage.navigate();
+        await pages.loginPage.performLogin('standard_user', 'secret_sauce');
+
+        const itemsNamePriceDescDetails = await pages.inventoryPage.addRandomItemsToCart();
+        //navigate to cart
+        await $('.shopping_cart_link').click();
+        //(check Name, Description, and Price values) in Cart
+        const cartItemsNamePriceDescDetails = [];
+        //TODO:
+        const cartItems = await pages.shopingCartPage.cartItems;
+
+        expect (itemsNamePriceDescDetails).toEqual(cartItemsNamePriceDescDetails);
+        
+    });
 });

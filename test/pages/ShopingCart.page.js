@@ -22,6 +22,9 @@ class ShopingCartPage extends BaseSwagLabPage {
     async removeCartItemById(id) {
         await this.cartItems[id].$(this.removeItemSelector).click();
     }
+
+    //my methods below
+
 }
 
 module.exports = { ShopingCartPage };
