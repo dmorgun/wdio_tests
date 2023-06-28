@@ -33,6 +33,20 @@ class InventoryPage extends BaseSwagLabPage {
 
     async addItemToCartById(id) {
         await this.addItemToCartBtns[id].click();
+
+        const itemNamePriceDescDetails = {};
+
+        //save item Name
+        const itemName = await this.getItemNameById(id);
+        itemNamePriceDescDetails.name = itemName;
+        //save item Price
+        const itemPrice = await this.getItemPriceById(id);
+        itemNamePriceDescDetails.price = itemPrice;
+        //save item Desc
+        const itemDesc = await this.getItemDescById(id);
+        itemNamePriceDescDetails.desc = itemDesc;
+
+        return itemNamePriceDescDetails;
     }
 
  
@@ -114,7 +128,10 @@ class InventoryPage extends BaseSwagLabPage {
     async addRandomItemsToCart() {
         const numOfInventoryItems = await this.inventoryItems.length; //6
         const numOfInventoryItemIds = numOfInventoryItems - 1; //5
-        const numOfItemsToSelect = Math.floor(Math.random() * numOfInventoryItems) + 1;//e.g. 2
+        //numOfItemsToSelect Prod
+        //const numOfItemsToSelect = Math.floor(Math.random() * numOfInventoryItems) + 1;//e.g. 2
+        //numOfItemsToSelect Test
+        const numOfItemsToSelect = 2;
 
         //create an array or item ids from 0 to the last available item
         function createArray(numOfInventoryItemIds) {
@@ -126,29 +143,17 @@ class InventoryPage extends BaseSwagLabPage {
           }
 
           const itemIdsArray = createArray(numOfInventoryItemIds);
-          console.log(itemIdsArray);
-
-          const randomItemIds = lodash.sampleSize(itemIdsArray, numOfItemsToSelect);
-
-          const itemsNamePriceDescDetails = []
+          //randomItemIds Prod
+          //const randomItemIds = lodash.sampleSize(itemIdsArray, numOfItemsToSelect);
+          //randomItemIds Test
+          const randomItemIds = [5];
+          const itemsNamePriceDescDetails = [];
 
           for (const id of randomItemIds) {
             //add random items to cart
-            await this.addItemToCartById(id);
-
-            const itemNamePriceDescDetails = {};
-
-            //save item Name
-            const itemName = await this.getItemNameById(id);
-            itemNamePriceDescDetails.name = itemName;
-            //save item Price
-            const itemPrice = await this.getItemPriceById(id);
-            itemNamePriceDescDetails.price = itemPrice;
-            //save item Desc
-            const itemDesc = await this.getItemDescById(id);
-            itemNamePriceDescDetails.desc = itemDesc;
-
+            const itemNamePriceDescDetails = await this.addItemToCartById(id);
             itemsNamePriceDescDetails.push(itemNamePriceDescDetails);
+
           }
 
         return itemsNamePriceDescDetails;
