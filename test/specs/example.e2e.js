@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 const { pages } = require('../pages/Pages');
 
 describe('My First Test', () => {
@@ -36,24 +37,22 @@ describe('My First Test', () => {
         await pages.inventoryPage.sortNameAtoZ();
         //retrieve all items names from the page and compare with sorted items array
         const sortedItemsAZ = (await pages.inventoryPage.getItemNames()).sort();
-        expect (await pages.inventoryPage.getItemNames()).toEqual(sortedItemsAZ);
-        
+        expect(await pages.inventoryPage.getItemNames()).toEqual(sortedItemsAZ);
 
         await pages.inventoryPage.sortNameZtoA();
         const unsortedItems = (await pages.inventoryPage.getItemNames());
         // I don't know how this localCompare thing works
         const sortedItemsZA = unsortedItems.sort((a, b) => b.localeCompare(a));
-        expect (await pages.inventoryPage.getItemNames()).toEqual(sortedItemsZA);
+        expect(await pages.inventoryPage.getItemNames()).toEqual(sortedItemsZA);
 
         await pages.inventoryPage.sortPriceLowToHigh();
         const unsortedPrices = (await pages.inventoryPage.getItemPrices());
         const sortedPricesLoHi = unsortedPrices.sort((a, b) => a - b);
-        expect (await pages.inventoryPage.getItemPrices()).toEqual(sortedPricesLoHi);
+        expect(await pages.inventoryPage.getItemPrices()).toEqual(sortedPricesLoHi);
 
         await pages.inventoryPage.sortPriceHighToLow();
         const sortedPricesHiLo = unsortedPrices.sort((a, b) => b - a);
-        expect (await pages.inventoryPage.getItemPrices()).toEqual(sortedPricesHiLo);
-        
+        expect(await pages.inventoryPage.getItemPrices()).toEqual(sortedPricesHiLo);
     });
 
     //Test2
@@ -81,7 +80,6 @@ describe('My First Test', () => {
         //     },
         //   ]
 
-        expect (itemsNamePriceDescDetails).toEqual(cartItemsNamePriceDescDetails);
-        
+        expect(itemsNamePriceDescDetails).toEqual(cartItemsNamePriceDescDetails);
     });
 });

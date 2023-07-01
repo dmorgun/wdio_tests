@@ -9,11 +9,11 @@ class ShopingCartPage extends BaseSwagLabPage {
     removeItemSelector = '[id^="remove"]';
 
     // my selectors below
-    get inventoryItemNames () { return $$('.inventory_item_name'); }
+    get inventoryItemNames() { return $$('.inventory_item_name'); }
 
-    get inventoryItemPrices () { return $$('.inventory_item_price'); }
+    get inventoryItemPrices() { return $$('.inventory_item_price'); }
 
-    get inventoryItemDescs () { return $$('.inventory_item_desc') }
+    get inventoryItemDescs() { return $$('.inventory_item_desc'); }
 
 
 
