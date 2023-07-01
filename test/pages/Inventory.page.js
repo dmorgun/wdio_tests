@@ -1,8 +1,9 @@
 const lodash = require('lodash');
 
 const { BaseSwagLabPage } = require('./BaseSwagLab.page');
+// const { pages } = require('../pages/Pages');
 
-const { Items } = require('./Items.pageFragment');
+const { Items } = require('./ShopItems.pageFragment');
 
 class InventoryPage extends BaseSwagLabPage {
 
@@ -16,9 +17,9 @@ class InventoryPage extends BaseSwagLabPage {
 
     get addItemToCartBtns() { return $$('[id^="add-to-cart"]'); }
 
-
-
     // my getters below
+    get inventoryItemNames() { return $$('.inventory_item_name'); }
+
     get sortingDropdown() { return $('.product_sort_container'); }
 
     get sortNameAtoZDropdownOption() { return $('option[value="az"]'); }
@@ -29,8 +30,8 @@ class InventoryPage extends BaseSwagLabPage {
 
     get sortPriceHighToLowDropdownOption() { return $('option[value="hilo"]'); }
 
-    // async addItemToCartById(id) {
-    //     await $$('[id^="add-to-cart"]')[id].click();
+    async addItemToCartById(id) {
+        await this.addItemToCartBtns[id].click();
 
     //     const itemNamePriceDescDetails = {};
 
@@ -45,7 +46,7 @@ class InventoryPage extends BaseSwagLabPage {
     //     // itemNamePriceDescDetails.desc = itemDesc;
 
     //     // return itemNamePriceDescDetails;
-    // }
+    }
 
     // my methods below
     async sortNameAtoZ() {
@@ -70,55 +71,68 @@ class InventoryPage extends BaseSwagLabPage {
         await this.sortPriceHighToLowDropdownOption.click();
     }
 
+    async getItemNameById(id) {
+        // const itemNameByIdTest = await $$('.inventory_item_name')[0].getText();
+        // console.log(itemNameByIdTest);
+        const itemNameById = await this.inventoryItemNames[id].getText();
+        return itemNameById;
+    }
+
     async addRandomItemsToCart() {
-        // const numOfInventoryItems = await this.inventoryItems.length; // 6
-        // const numOfInventoryItemIds = numOfInventoryItems - 1; // 5
+        const numOfInventoryItems = await this.inventoryItems.length; // 6
+        const numOfInventoryItemIds = numOfInventoryItems - 1; // 5
         // numOfItemsToSelect Prod
-        // const numOfItemsToSelect = Math.floor(Math.random() * numOfInventoryItems) + 1;//e.g. 2
+        const numOfItemsToSelect = Math.floor(Math.random() * numOfInventoryItems) + 1;//e.g. 2
         // numOfItemsToSelect Test
         // const numOfItemsToSelect = 2;
 
         // create an array or item ids from 0 to the last available item
-        // function createArray(numOfItemIds) {
-        //     const result = [];
-        //     for (let i = 0; i <= numOfItemIds; i += 1) {
-        //         result.push(i);
-        //     }
-        //     return result;
+        function createArray(numOfItemIds) {
+            const result = [];
+            for (let i = 0; i <= numOfItemIds; i += 1) {
+                result.push(i);
+            }
+            return result;
+        }
+
+        const itemIdsArray = createArray(numOfInventoryItemIds);
+        // randomItemIds Prod
+        const randomItemIds = lodash.sampleSize(itemIdsArray, numOfItemsToSelect);
+        // randomItemIds Test
+        // const randomItemIds = [1,3];
+
+        // test adding items one by one. Below works:
+        // await $$('[id^="add-to-cart"]')[0].click();
+        // await $$('[id^="add-to-cart"]')[0].click();
+        // await $$('[id^="add-to-cart"]')[0].click();
+        // await $$('[id^="add-to-cart"]')[0].click();
+        // await $$('[id^="add-to-cart"]')[0].click();
+        // await $$('[id^="add-to-cart"]')[0].click();
+
+        // const addToCartBtns = await $$('[id^="add-to-cart"]');
+        // const addToCartBtnIds = [];
+
+        // for (const el of addToCartBtns) {
+        //     const idName = await el.getAttribute('id');
+        //     await el.click();
+        //     addToCartBtnIds.push(idName);
         // }
 
-        // const itemIdsArray = createArray(numOfInventoryItemIds);
-        // randomItemIds Prod
-        // const randomItemIds = lodash.sampleSize(itemIdsArray, numOfItemsToSelect);
-        // randomItemIds Test
-        const randomItemIds = [1,3];
         const itemsNamePriceDescDetails = [];
 
-        // test adding items one by one
-        // await $$('[id^="add-to-cart"]')[0].click();
-        // await $$('[id^="add-to-cart"]')[0].click();
-        // await $$('[id^="add-to-cart"]')[0].click();
-        // await $$('[id^="add-to-cart"]')[0].click();
-        // await $$('[id^="add-to-cart"]')[0].click();
-        // await $$('[id^="add-to-cart"]')[0].click();
-
-        const addToCartBtns = await $$('[id^="add-to-cart"]');
-        const addToCartBtnIds = [];
-        // for (const el of addToCartBtns) {
-        //     // const idName = await el.getAttribute('id');
-        //     await el.click();
-        //     // addToCartBtnIds.push(idName);
-        // }
-
-        await $$('[id^="add-to-cart"]').forEach(async (el, i) => {
-            if (randomItemIds.includes(i)) {
+        await this.addItemToCartBtns.forEach(async (el, id) => {
+            if (randomItemIds.includes(id)) {
                 // save el info
-                // todo
+                const itemName = await this.getItemNameById(id);
+                // const itemPrice = await el.pages.items.getItemPriceById(id);
+                // const itemDesc = await el.pages.items.getItemDescById(id);
                 await el.click();
+                itemsNamePriceDescDetails.push(itemName);
             }
         })
+        return itemsNamePriceDescDetails;
+        console.log(itemsNamePriceDescDetails);
 
-        console.log(addToCartBtnIds);
         // await $$('.btn.btn_primary.btn_small.btn_inventory')[0].click();
         // await $$('.btn.btn_primary.btn_small.btn_inventory')[1].click();
         // await $$('.btn.btn_primary.btn_small.btn_inventory')[2].click();
@@ -127,16 +141,13 @@ class InventoryPage extends BaseSwagLabPage {
         // await $$('.btn.btn_primary.btn_small.btn_inventory')[4].click();
         // await $$('.btn.btn_primary.btn_small.btn_inventory')[5].click();
 
-        await $('#add-to-cart-sauce-labs-backpack').click();
-        await $('#add-to-cart-sauce-labs-bike-light').click();
-        await $('#add-to-cart-sauce-labs-bolt-t-shirt').click();
-        await $('#add-to-cart-sauce-labs-fleece-jacket').click();
-        await $('#add-to-cart-sauce-labs-onesie').click();
-        await $('#add-to-cart-test\\.allthethings\\(\\)-t-shirt-\\(red\\)').click();
+        // await $('#add-to-cart-sauce-labs-backpack').click();
+        // await $('#add-to-cart-sauce-labs-bike-light').click();
+        // await $('#add-to-cart-sauce-labs-bolt-t-shirt').click();
+        // await $('#add-to-cart-sauce-labs-fleece-jacket').click();
+        // await $('#add-to-cart-sauce-labs-onesie').click();
+        // await $('#add-to-cart-test\\.allthethings\\(\\)-t-shirt-\\(red\\)').click();
         
-        
-
-
         // for (const id of randomItemIds) {
         //     // add random items to cart
         //     const itemNamePriceDescDetails = this.addItemToCartById(id);
