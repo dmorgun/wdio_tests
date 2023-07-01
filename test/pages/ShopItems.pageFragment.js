@@ -1,6 +1,6 @@
 class Items {
     // my selectors below
-    // get inventoryItemNames() { return $$('.inventory_item_name'); }
+    get inventoryItemNames() { return $$('.inventory_item_name'); }
 
     get inventoryItemPrices() { return $$('.inventory_item_price'); }
 
@@ -38,7 +38,10 @@ class Items {
         return itemPricesAsNumbers;
     }
 
-
+    async getItemNameById(id) {
+        const itemNameById = await this.inventoryItemNames[id].getText();
+        return itemNameById;
+    }
 
     async getItemPriceById(id) {
         const itemPriceById = await this.inventoryItemPrices[id].getText();

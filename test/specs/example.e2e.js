@@ -60,7 +60,7 @@ describe('My First Test', () => {
         await pages.loginPage.navigate();
         await pages.loginPage.performLogin('standard_user', 'secret_sauce');
 
-        const test = await $$('.inventory_item_name')[0].getText();
+        // const test = await $$('.inventory_item_name')[0].getText();
 
         const itemsNamePriceDescDetails = await pages.inventoryPage.addRandomItemsToCart();
         //navigate to cart

@@ -13,7 +13,7 @@ class InventoryPage extends BaseSwagLabPage {
 
     get headerTitle() { return $('.title'); }
 
-    get inventoryItems() { return $$('.inventory_item'); }
+    
 
     get addItemToCartBtns() { return $$('[id^="add-to-cart"]'); }
 
@@ -71,12 +71,7 @@ class InventoryPage extends BaseSwagLabPage {
         await this.sortPriceHighToLowDropdownOption.click();
     }
 
-    async getItemNameById(id) {
-        // const itemNameByIdTest = await $$('.inventory_item_name')[0].getText();
-        // console.log(itemNameByIdTest);
-        const itemNameById = await this.inventoryItemNames[id].getText();
-        return itemNameById;
-    }
+
 
     async addRandomItemsToCart() {
         const numOfInventoryItems = await this.inventoryItems.length; // 6
@@ -124,10 +119,10 @@ class InventoryPage extends BaseSwagLabPage {
             if (randomItemIds.includes(id)) {
                 // save el info
                 const itemName = await this.getItemNameById(id);
-                // const itemPrice = await el.pages.items.getItemPriceById(id);
-                // const itemDesc = await el.pages.items.getItemDescById(id);
+                const itemPrice = await this.items.getItemPriceById(id);
+                const itemDesc = await this.items.getItemDescById(id);
                 await el.click();
-                itemsNamePriceDescDetails.push(itemName);
+                itemsNamePriceDescDetails.push(itemName,itemPrice,itemDesc);
             }
         })
         return itemsNamePriceDescDetails;
