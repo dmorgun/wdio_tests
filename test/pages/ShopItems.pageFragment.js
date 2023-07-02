@@ -6,6 +6,8 @@ class Items {
 
     get inventoryItemDescs() { return $$('.inventory_item_desc'); }
 
+    get inventoryItems() { return $$('.inventory_item'); }
+
 
     async getItemNames() {
         const items = await this.inventoryItems;
