@@ -13,7 +13,7 @@ class InventoryPage extends BaseSwagLabPage {
 
     get headerTitle() { return $('.title'); }
 
-    
+    get inventoryItems() { return $$('.inventory_item'); }
 
     get addItemToCartBtns() { return $$('[id^="add-to-cart"]'); }
 
@@ -118,15 +118,15 @@ class InventoryPage extends BaseSwagLabPage {
         await this.addItemToCartBtns.forEach(async (el, id) => {
             if (randomItemIds.includes(id)) {
                 // save el info
-                const itemName = await this.getItemNameById(id);
+                const itemName = await this.items.getItemNameById(id);
                 const itemPrice = await this.items.getItemPriceById(id);
                 const itemDesc = await this.items.getItemDescById(id);
                 await el.click();
-                itemsNamePriceDescDetails.push(itemName,itemPrice,itemDesc);
+                //Promise.all?
+                itemsNamePriceDescDetails.push(itemName, itemPrice, itemDesc);
             }
         })
         return itemsNamePriceDescDetails;
-        console.log(itemsNamePriceDescDetails);
 
         // await $$('.btn.btn_primary.btn_small.btn_inventory')[0].click();
         // await $$('.btn.btn_primary.btn_small.btn_inventory')[1].click();

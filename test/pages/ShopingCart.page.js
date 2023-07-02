@@ -1,8 +1,12 @@
 const { BaseSwagLabPage } = require('./BaseSwagLab.page');
 const { pages } = require('./Pages');
 
+const { Items } = require('./ShopItems.pageFragment');
+
 class ShopingCartPage extends BaseSwagLabPage {
     url = '/cart.html';
+
+    items = new Items();
 
     cartItemSelector = '.cart_item';
 
@@ -14,8 +18,6 @@ class ShopingCartPage extends BaseSwagLabPage {
     get inventoryItemPrices() { return $$('.inventory_item_price'); }
 
     get inventoryItemDescs() { return $$('.inventory_item_desc'); }
-
-
 
     get headerTitle() { return $('.title'); }
 
@@ -54,31 +56,39 @@ class ShopingCartPage extends BaseSwagLabPage {
         const cartItemsLength = await this.cartItems.length; //e.g.2
         const numOfCartItemIds = cartItemsLength - 1; //1
 
-        //Test
-        const cartItemIdsArray = [0,1,2,3,4,5]
-        //Prod
-        //cartItemIdsArray = []
-
-        const cartItemsNamePriceDescDetails = []
-
-        for (const id of cartItemIdsArray) {
-          //add random items to cart
-
-          const itemNamePriceDescDetails = {};
-
-          //save item Name
-          const itemName = await this.getItemNameById(id);
-          itemNamePriceDescDetails.name = itemName;
-          //save item Price
-          const itemPrice = await this.getItemPriceById(id);
-          itemNamePriceDescDetails.price = itemPrice;
-          //save item Desc
-          const itemDesc = await this.getItemDescById(id);
-          itemNamePriceDescDetails.desc = itemDesc;
-
-          cartItemsNamePriceDescDetails.push(itemNamePriceDescDetails);
+        // create an array or item ids from 0 to the last available item
+        function createArray(numOfItemIds) {
+            const result = [];
+            for (let i = 0; i <= numOfItemIds; i += 1) {
+                result.push(i);
+            }
+            return result;
         }
 
+        const cartItemIds = createArray(numOfCartItemIds);
+        //Test
+        // const cartItemIds = [0,1,2]
+
+        const cartItemsNamePriceDescDetails = [];
+
+        for (let id = 0; id < cartItemsLength; id += 1) {
+
+            // const fruit = fruitsToGet[id]
+            // const numFruit = await getNumFruit(fruit)
+            
+            const itemName = await this.getItemNameById(id);
+            const itemPrice = await this.getItemPriceById(id);
+            const itemDesc = await this.getItemDescById(id);
+            cartItemsNamePriceDescDetails.push(itemName, itemPrice, itemDesc);
+          }
+
+        // cartItemIds.forEach(async (id) => {
+            // const itemName = await this.getItemNameById(id);
+            // const itemPrice = await this.getItemPriceById(id);
+            // const itemDesc = await this.getItemDescById(id);
+            // cartItemsNamePriceDescDetails.push(itemName, itemPrice, itemDesc);
+        //     // return Promise.all([itemName, itemPrice, itemDesc]);
+        // })
       return cartItemsNamePriceDescDetails;
 
     }

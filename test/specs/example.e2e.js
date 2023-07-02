@@ -59,29 +59,13 @@ describe('My First Test', () => {
     it.only('Add random products to Cart, verify they`re displayed correctly', async () => {
         await pages.loginPage.navigate();
         await pages.loginPage.performLogin('standard_user', 'secret_sauce');
-
         // const test = await $$('.inventory_item_name')[0].getText();
-
         const itemsNamePriceDescDetails = await pages.inventoryPage.addRandomItemsToCart();
         //navigate to cart
         await $('.shopping_cart_link').click();
-        //(check Name, Description, and Price values) in Cart]
         //const cartItemsNamePriceDescDetails Prod
         const cartItemsNamePriceDescDetails = await pages.shopingCartPage.getCartItemsNamePriceDescDetails();
-        //cartItemsNamePriceDescDetails Test
-        // const cartItemsNamePriceDescDetails = [
-        //     {
-        //       name: "Sauce Labs Backpack",
-        //       price: "$29.99",
-        //       desc: "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.",
-        //     },
-        //     {
-        //       name: "Sauce Labs Bike Light",
-        //       price: "$9.99",
-        //       desc: "A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.",
-        //     },
-        //   ]
-
+        //check Name, Description, and Price values in Cart]
         expect(itemsNamePriceDescDetails).toEqual(cartItemsNamePriceDescDetails);
     });
 });
