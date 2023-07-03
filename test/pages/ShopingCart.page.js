@@ -1,7 +1,12 @@
 const { BaseSwagLabPage } = require('./BaseSwagLab.page');
+const { pages } = require('./Pages');
+
+const { Items } = require('./ShopItems.pageFragment');
 
 class ShopingCartPage extends BaseSwagLabPage {
     url = '/cart.html';
+
+    items = new Items();
 
     cartItemSelector = '.cart_item';
 
@@ -22,6 +27,24 @@ class ShopingCartPage extends BaseSwagLabPage {
     async removeCartItemById(id) {
         await this.cartItems[id].$(this.removeItemSelector).click();
     }
+
+    //my methods below
+    async getCartItemsNamePriceDescDetails() {
+        const cartItemsLength = await this.cartItems.length;
+
+        const cartItemsNamePriceDescDetails = [];
+
+        for (let id = 0; id < cartItemsLength; id += 1) {
+            const itemName = await this.items.getItemNameById(id);
+            const itemPrice = await this.items.getItemPriceById(id);
+            const itemDesc = await this.items.getItemDescById(id);
+            cartItemsNamePriceDescDetails.push(itemName, itemPrice, itemDesc);
+          }
+
+      return cartItemsNamePriceDescDetails;
+
+    }
+
 }
 
 module.exports = { ShopingCartPage };
