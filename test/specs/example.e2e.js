@@ -70,7 +70,7 @@ describe('My First Test', () => {
     });
 
     //Test3
-    it('Add random products to Cart, checkout, fill the data, verify they`re displayed correctly, calculate total price', async () => {
+    it.only('Add random products to Cart, checkout, fill the data, verify they`re displayed correctly, calculate total price', async () => {
         await pages.loginPage.navigate();
         await pages.loginPage.performLogin('standard_user', 'secret_sauce');
         
@@ -80,15 +80,15 @@ describe('My First Test', () => {
         // click Checkout btn
         await $('#checkout').click();
         // fill the data
-        await pages.shopingCartPage.fillForm('Daria', 'Morgun', '03143');
+        await pages.checkoutStepOne.fillForm('Daria', 'Morgun', '03143');
         // click Continue
         await $('#continue').click();
         // verify products
-        const checkoutItemsNamePriceDescDetails = await pages.checkoutStepOne.getCartItemsNamePriceDescDetails();
+        const checkoutItemsNamePriceDescDetails = await pages.shopingCartPage.getCartItemsNamePriceDescDetails();
         //check Name, Description, and Price values in Cart]
         expect(itemsNamePriceDescDetails).toEqual(checkoutItemsNamePriceDescDetails);
         // verify total price
-        const expectedTotalPrice = 30;
+        const expectedTotalPrice = await pages.checkoutStepTwo.getExpectedTotalPrice();
         const actualTotalPrice = await pages.checkoutStepTwo.getTotalPrice();
         expect(actualTotalPrice).toEqual(expectedTotalPrice);
     });
