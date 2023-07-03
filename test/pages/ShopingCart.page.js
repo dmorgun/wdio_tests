@@ -45,6 +45,10 @@ class ShopingCartPage extends BaseSwagLabPage {
 
     }
 
+    async fillForm(name, surname, zip) {
+        //TODO
+    }
+
 }
 
 module.exports = { ShopingCartPage };

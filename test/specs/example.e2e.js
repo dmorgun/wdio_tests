@@ -68,4 +68,28 @@ describe('My First Test', () => {
         //check Name, Description, and Price values in Cart]
         expect(itemsNamePriceDescDetails).toEqual(cartItemsNamePriceDescDetails);
     });
+
+    //Test3
+    it('Add random products to Cart, checkout, fill the data, verify they`re displayed correctly, calculate total price', async () => {
+        await pages.loginPage.navigate();
+        await pages.loginPage.performLogin('standard_user', 'secret_sauce');
+        
+        const itemsNamePriceDescDetails = await pages.inventoryPage.addRandomItemsToCart();
+        //navigate to cart
+        await $('.shopping_cart_link').click();
+        // click Checkout btn
+        await $('#checkout').click();
+        // fill the data
+        await pages.shopingCartPage.fillForm('Daria', 'Morgun', '03143');
+        // click Continue
+        await $('#continue').click();
+        // verify products
+        const checkoutItemsNamePriceDescDetails = await pages.checkoutStepOne.getCartItemsNamePriceDescDetails();
+        //check Name, Description, and Price values in Cart]
+        expect(itemsNamePriceDescDetails).toEqual(checkoutItemsNamePriceDescDetails);
+        // verify total price
+        const expectedTotalPrice = 30;
+        const actualTotalPrice = await pages.checkoutStepTwo.getTotalPrice();
+        expect(actualTotalPrice).toEqual(expectedTotalPrice);
+    });
 });
