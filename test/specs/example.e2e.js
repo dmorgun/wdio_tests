@@ -56,7 +56,7 @@ describe('My First Test', () => {
     });
 
     //Test2
-    it.only('Add random products to Cart, verify they`re displayed correctly', async () => {
+    it('Add random products to Cart, verify they`re displayed correctly', async () => {
         await pages.loginPage.navigate();
         await pages.loginPage.performLogin('standard_user', 'secret_sauce');
         // const test = await $$('.inventory_item_name')[0].getText();

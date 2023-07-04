@@ -46,7 +46,8 @@ class ShopingCartPage extends BaseSwagLabPage {
     async removeAllCartItemsById() {
         const cartItemsLength = await this.cartItems.length;
         for (let id = 0; id < cartItemsLength; id += 1) {
-            await this.removeCartItemById(id);
+            // remove the item with id=0 as many times as there are cart items
+            await this.removeCartItemById(0);
           }
     }
 }
