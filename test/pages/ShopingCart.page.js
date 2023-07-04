@@ -40,11 +40,16 @@ class ShopingCartPage extends BaseSwagLabPage {
             const itemDesc = await this.items.getItemDescById(id);
             cartItemsNamePriceDescDetails.push(itemName, itemPrice, itemDesc);
           }
-
       return cartItemsNamePriceDescDetails;
-
     }
 
+    async removeAllCartItemsById() {
+        const cartItemsLength = await this.cartItems.length;
+        for (let id = 0; id < cartItemsLength; id += 1) {
+            // remove the item with id=0 as many times as there are cart items
+            await this.removeCartItemById(0);
+          }
+    }
 }
 
 module.exports = { ShopingCartPage };
