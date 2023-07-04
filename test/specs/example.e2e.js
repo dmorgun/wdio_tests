@@ -56,7 +56,7 @@ describe('My First Test', () => {
     });
 
     //Test2
-    it('Add random products to Cart, verify they`re displayed correctly', async () => {
+    it.only('Add random products to Cart, verify they`re displayed correctly', async () => {
         await pages.loginPage.navigate();
         await pages.loginPage.performLogin('standard_user', 'secret_sauce');
         // const test = await $$('.inventory_item_name')[0].getText();
@@ -67,10 +67,11 @@ describe('My First Test', () => {
         const cartItemsNamePriceDescDetails = await pages.shopingCartPage.getCartItemsNamePriceDescDetails();
         //check Name, Description, and Price values in Cart]
         expect(itemsNamePriceDescDetails).toEqual(cartItemsNamePriceDescDetails);
+        await pages.shopingCartPage.removeAllCartItemsById();
     });
 
     //Test3
-    it.only('Add random products to Cart, checkout, fill the data, verify they`re displayed correctly, calculate total price', async () => {
+    it('Add random products to Cart, checkout, fill the data, verify they`re displayed correctly, calculate total price', async () => {
         await pages.loginPage.navigate();
         await pages.loginPage.performLogin('standard_user', 'secret_sauce');
         
